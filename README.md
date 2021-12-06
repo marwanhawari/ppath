@@ -10,9 +10,15 @@
 A command-line tool to pretty print your system's PATH environment variable. The output paths are colorized if they have special associations (e.g. cyan for go, green for python, orange for rust).
 
 # Installation
-Install directly with go:
+If you have go installed, you can build and install from source using:
 ```
 go install github.com/marwanhawari/ppath@latest
+```
+
+Otherwise, if you are running macOS or Linux, you can install the compiled binaries using Homebrew:
+```
+brew tap marwanhawari/ppath github.com/marwanhawari/ppath
+brew install ppath
 ```
 
 # Usage

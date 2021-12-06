@@ -1,0 +1,54 @@
+name: release
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      EXECUTABLE_NAME: ${{ secrets.EXECUTABLE_NAME }}
+
+    strategy:
+      matrix:
+        go-version: [1.17]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set GIT_TAG environment variable
+      run: echo "GIT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+    - name: Create a GitHub release
+      run: gh release create $GIT_TAG -n ""
+    
+  build:
+    needs: [prepare]
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        go-version: [1.17]
+        GOOS: [darwin, linux]
+        GOARCH: [arm64, amd64]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: ${{ matrix.go-version }}
+
+    - name: Set enviornment variables
+      run: |
+        export GOOS=${{ matrix.GOOS }}
+        export GOARCH=${{ matrix.GOARCH }}
+        export DIST_NAME="$EXECUTABLE_NAME-$GIT_TAG-$GOOS-$GOARCH.tar.gz"
+    - name: Build the executable
+      run: go build ./...
+    - name: Create binary distribution
+      run: tar -czf $DIST_NAME README.md LICENSE $EXECUTABLE_NAME
+    - name: Upload binary distribution to the GitHub release
+      run: gh release upload $GIT_TAG $DIST_NAME
+    
