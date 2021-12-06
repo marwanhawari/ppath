@@ -49,14 +49,11 @@ jobs:
       run: |
         echo "GOOS=${{ matrix.GOOS }}" >> $GITHUB_ENV
         echo "GOARCH=${{ matrix.GOARCH }}" >> $GITHUB_ENV
-        echo 'DIST_NAME="$EXECUTABLE_NAME-$GIT_TAG-$GOOS-$GOARCH.tar.gz"' >> $GITHUB_ENV
-        echo $GOOS
-        echo $GOARCH
-        echo $DIST_NAME
+        echo DIST_NAME="$EXECUTABLE_NAME-$GIT_TAG-$GOOS-$GOARCH.tar.gz" >> $GITHUB_ENV
     - name: Build the executable
       run: go build ./...
     - name: Create binary distribution
-      run: tar -czf $DIST_NAME README.md LICENSE $EXECUTABLE_NAME && ls
+      run: tar -czf $DIST_NAME README.md LICENSE $EXECUTABLE_NAME
     - name: Upload binary distribution to the GitHub release
       run: gh release upload $GIT_TAG $DIST_NAME
     
