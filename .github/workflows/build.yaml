@@ -49,7 +49,7 @@ jobs:
       run: |
         echo "GOOS=${{ matrix.GOOS }}" >> $GITHUB_ENV
         echo "GOARCH=${{ matrix.GOARCH }}" >> $GITHUB_ENV
-        echo DIST_NAME="$EXECUTABLE_NAME-$GIT_TAG-$GOOS-$GOARCH.tar.gz" >> $GITHUB_ENV
+        echo DIST_NAME="$EXECUTABLE_NAME-$GIT_TAG-${{ matrix.GOOS }}-${{ matrix.GOARCH }}.tar.gz" >> $GITHUB_ENV
     - name: Build the executable
       run: go build ./...
     - name: Create binary distribution
