@@ -16,9 +16,7 @@ go install github.com/marwanhawari/ppath@latest
 ```
 
 # Usage
-<p align="center">
-  <img width=70% height=auto src="https://github.com/marwanhawari/ppath/raw/main/assets/ppath_usage.png" alt="ppath usage"/>
-</p>
+![ppath usage](https://github.com/marwanhawari/ppath/raw/main/assets/ppath_usage.gif)
 
 ### Options
 ```
