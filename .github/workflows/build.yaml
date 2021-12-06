@@ -26,6 +26,9 @@ jobs:
   build:
     needs: [prepare]
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      EXECUTABLE_NAME: ${{ secrets.EXECUTABLE_NAME }}
 
     strategy:
       matrix:
@@ -40,7 +43,9 @@ jobs:
       with:
         go-version: ${{ matrix.go-version }}
 
-    - name: Set enviornment variables
+    - name: Set GIT_TAG environment variable
+      run: echo "GIT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+    - name: Set GO enviornment variables
       run: |
         export GOOS=${{ matrix.GOOS }}
         export GOARCH=${{ matrix.GOARCH }}
@@ -48,7 +53,7 @@ jobs:
     - name: Build the executable
       run: go build ./...
     - name: Create binary distribution
-      run: tar -czf $DIST_NAME README.md LICENSE $EXECUTABLE_NAME
+      run: tar -czf $DIST_NAME README.md LICENSE $EXECUTABLE_NAME && ls
     - name: Upload binary distribution to the GitHub release
       run: gh release upload $GIT_TAG $DIST_NAME
     
