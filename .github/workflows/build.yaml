@@ -47,9 +47,12 @@ jobs:
       run: echo "GIT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Set GO enviornment variables
       run: |
-        export GOOS=${{ matrix.GOOS }}
-        export GOARCH=${{ matrix.GOARCH }}
-        export DIST_NAME="$EXECUTABLE_NAME-$GIT_TAG-$GOOS-$GOARCH.tar.gz"
+        echo "GOOS=${{ matrix.GOOS }}" >> $GITHUB_ENV
+        echo "GOARCH=${{ matrix.GOARCH }}" >> $GITHUB_ENV
+        echo 'DIST_NAME="$EXECUTABLE_NAME-$GIT_TAG-$GOOS-$GOARCH.tar.gz"' >> $GITHUB_ENV
+        echo $GOOS
+        echo $GOARCH
+        echo $DIST_NAME
     - name: Build the executable
       run: go build ./...
     - name: Create binary distribution
