@@ -63,7 +63,7 @@ func colorizePath(colorMap map[string]string, element string) {
 		printlnColor(colorMap, "CYAN", element)
 	} else if strings.Contains(element, "venv") || strings.Contains(element, "conda") || strings.Contains(element, "python") || strings.Contains(element, "Python") || strings.Contains(element, "py") {
 		printlnColor(colorMap, "GREEN", element)
-	} else if strings.Contains(element, "/homebrew/") {
+	} else if strings.Contains(element, "homebrew") || strings.Contains(element, "linuxbrew") {
 		printlnColor(colorMap, "BROWN", element)
 	} else if strings.Contains(element, "/.cargo/") {
 		printlnColor(colorMap, "ORANGE", element)
