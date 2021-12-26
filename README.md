@@ -22,6 +22,6 @@ go install github.com/marwanhawari/ppath@latest
 Usage of ppath:
   -all
         Include duplicate paths from $PATH variable. (default false)
-  -colorize string
-        Choose how to color the output [8bit, 3bit, none]. (default "8bit")
+  -uncolored
+        Uncolor the output. (default false)
 ```
