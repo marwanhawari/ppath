@@ -7,18 +7,7 @@ import (
 	"strings"
 )
 
-var colors3bit = map[string]string{
-	"RESET":  "\033[0m",
-	"BOLD":   "\033[1m",
-	"GRAY":   "\033[30m",
-	"RED":    "\033[31m",
-	"GREEN":  "\033[32m",
-	"CYAN":   "\033[36m",
-	"ORANGE": "\033[31m",
-	"BROWN":  "\033[31m",
-}
-
-var colors8bit = map[string]string{
+var colorMap = map[string]string{
 	"RESET":  "\033[0m",
 	"BOLD":   "\033[1m",
 	"GRAY":   "\033[38;5;243m",
@@ -50,34 +39,34 @@ func unique(array []string) []string {
 	return seen
 }
 
-func printlnColor(colorMap map[string]string, color string, element string) {
+func printlnColor(color string, element string) {
 	fmt.Println(colorMap["BOLD"] + colorMap[color] + element + colorMap["RESET"])
 }
 
-func colorizePath(colorMap map[string]string, element string) {
+func colorizePath(element string) {
 	defaultPaths := []string{"/bin", "/sbin", "/usr/bin", "/usr/sbin", "/usr/local/bin", "/usr/local/sbin"}
 
 	if contains(defaultPaths, element) {
-		printlnColor(colorMap, "GRAY", element)
+		printlnColor("GRAY", element)
 	} else if strings.Contains(element, "/go/") || strings.HasSuffix(element, "/go") {
-		printlnColor(colorMap, "CYAN", element)
+		printlnColor("CYAN", element)
 	} else if strings.Contains(element, "venv") || strings.Contains(element, "conda") || strings.Contains(element, "python") || strings.Contains(element, "Python") || strings.Contains(element, "py") {
-		printlnColor(colorMap, "GREEN", element)
+		printlnColor("GREEN", element)
 	} else if strings.Contains(element, "homebrew") || strings.Contains(element, "linuxbrew") {
-		printlnColor(colorMap, "BROWN", element)
+		printlnColor("BROWN", element)
 	} else if strings.Contains(element, "/.cargo/") {
-		printlnColor(colorMap, "ORANGE", element)
+		printlnColor("ORANGE", element)
 	} else {
-		printlnColor(colorMap, "BOLD", element)
+		printlnColor("BOLD", element)
 	}
 }
 
 func main() {
 	allPtr := flag.Bool("all", false, "Include duplicate paths from $PATH variable. (default false)")
-	colorizePtr := flag.String("colorize", "8bit", "Choose how to color the output [8bit, 3bit, none].")
+	uncoloredPtr := flag.Bool("uncolored", false, "Uncolor the output. (default false)")
 	flag.Parse()
 	allArg := *allPtr
-	colorizeArg := *colorizePtr
+	uncoloredArg := *uncoloredPtr
 
 	stringPaths := os.Getenv("PATH")
 	paths := strings.Split(stringPaths, ":")
@@ -86,17 +75,14 @@ func main() {
 		paths = unique(paths)
 	}
 
-	var colorMap map[string]string
-	if colorizeArg != "8bit" && colorizeArg != "3bit" && colorizeArg != "none" {
-		fmt.Println("--colorize expects one of [8bit, 3bit, none].")
-		os.Exit(1)
-	} else if colorizeArg == "8bit" {
-		colorMap = colors8bit
-	} else if colorizeArg == "3bit" {
-		colorMap = colors3bit
+	if uncoloredArg {
+		for _, element := range paths {
+			fmt.Println(element)
+		}
+	} else {
+		for _, element := range paths {
+			colorizePath(element)
+		}
 	}
 
-	for _, element := range paths {
-		colorizePath(colorMap, element)
-	}
 }
