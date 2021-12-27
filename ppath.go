@@ -16,6 +16,7 @@ var colorMap = map[string]string{
 	"CYAN":   "\033[38;5;75m",
 	"ORANGE": "\033[38;5;202m",
 	"BROWN":  "\033[38;5;94m",
+	"YELLOW": "\033[38;5;178m",
 }
 
 func contains(array []string, target string) bool {
@@ -56,6 +57,8 @@ func colorizePath(element string) {
 		printlnColor("BROWN", element)
 	} else if strings.Contains(element, "/.cargo/") {
 		printlnColor("ORANGE", element)
+	} else if strings.Contains(element, "/.nvm/") {
+		printlnColor("YELLOW", element)
 	} else {
 		printlnColor("BOLD", element)
 	}

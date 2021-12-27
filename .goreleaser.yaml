@@ -1,0 +1,27 @@
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - arm64
+      - amd64
+archives:
+  - name_template: "{{ .ProjectName }}-v{{ .Version }}-{{ .Os }}-{{ .Arch }}"
+checksum:
+  name_template: "checksums.txt"
+brews:
+  - tap:
+      owner: marwanhawari
+      name: homebrew-tap
+    folder: Formula
+    commit_author:
+      name: Marwan Hawari
+      email: marwan.hawari@gmail.com
+    license: "MIT"
+    homepage: "https://github.com/marwanhawari/ppath"
+    description: "A command-line tool to pretty print your system's PATH environment variable"
