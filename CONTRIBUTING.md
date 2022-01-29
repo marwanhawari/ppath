@@ -3,36 +3,19 @@
 #### Any and all contributions are welcome at this stage - paritcularly with writing tests, documentation, and new features.
 #### *Note*: *All new features should also include tests.*
 
-## Conventions
-
-| Task  | Tool  |
-| - | - |
-| Tests | `pytest` |
-| Coverage | `coverage.py` |
-| Formatting | `black` |
-| Linting | `flake8` |
-| Type checking | `pytype` |
-| Docstrings | `google` |
-
 ## How to contribute
 1. Fork this repository and clone it onto your machine.
     ```
-    git clone https://github.com/<my_account>/pyinterview.git
+    git clone https://github.com/<my_account>/ppath.git
     ```
     
 1. Create a new branch and switch to it.
 
     ```
-    cd pyinterview
+    cd ppath
     git checkout -b <new_branch_name>
     ```
-    
-1. Set up the development environment. This will create a virtual environment and install all of the required development packages.
-    
-    ```
-    source startup-dev.sh
-    ```
-    
+
 1. Make changes to the code on that branch and commit.
 1. Push the commit to GitHub.
     ```
